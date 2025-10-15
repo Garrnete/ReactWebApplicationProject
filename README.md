@@ -94,7 +94,7 @@ Favorites hover animation for interactivity
       5d. Add favorites and view them on the Favorites page
 
 ## Project Structure
-
+```
 src
 ├── assets               
 ├── components
@@ -120,7 +120,7 @@ src
 │   └── houseColors.js
 ├── App.jsx
 └── index.css
-
+```
 ## API
 
 HP API: https://hp-api.onrender.com/api/characters/house/{house}
