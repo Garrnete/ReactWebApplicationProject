@@ -1,32 +1,32 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
 
+// Async thunk to fetch characters by house
 export const fetchCharactersByHouse = createAsyncThunk(
   "characters/fetchByHouse",
   async (house) => {
-    const res = await axios.get(
-      `https://hp-api.onrender.com/api/characters/house/${house.toLowerCase()}`
+    const response = await fetch(
+      `https://hp-api.onrender.com/api/characters/house/${house}`
     );
-    return res.data;
+    if (!response.ok) {
+      throw new Error("Failed to fetch characters");
+    }
+    return response.json(); // returns array of characters
   }
 );
 
 const charactersSlice = createSlice({
   name: "characters",
   initialState: {
-    list: [],
-    status: "idle",
-    error: null,
+    list: [],       // array of characters
+    status: "idle", // idle | loading | succeeded | failed
+    error: null,    // error message if fetch fails
   },
-  reducers: {
-    setCharacters: (state, action) => {
-      state.list = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchCharactersByHouse.pending, (state) => {
         state.status = "loading";
+        state.error = null;
       })
       .addCase(fetchCharactersByHouse.fulfilled, (state, action) => {
         state.status = "succeeded";
@@ -39,5 +39,4 @@ const charactersSlice = createSlice({
   },
 });
 
-export const { setCharacters } = charactersSlice.actions;
 export default charactersSlice.reducer;
