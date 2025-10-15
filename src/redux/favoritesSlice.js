@@ -10,7 +10,11 @@ const loadFavorites = () => {
 };
 
 const saveFavorites = (favorites) => {
-  localStorage.setItem("favorites", JSON.stringify(favorites));
+  try {
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+  } catch (e) {
+    // ignore
+  }
 };
 
 const favoritesSlice = createSlice({
@@ -30,8 +34,12 @@ const favoritesSlice = createSlice({
       state.items = state.items.filter((c) => c.name !== action.payload.name);
       saveFavorites(state.items);
     },
+    clearFavorites: (state) => {
+      state.items = [];
+      saveFavorites(state.items);
+    },
   },
 });
 
-export const { addFavorite, removeFavorite } = favoritesSlice.actions;
+export const { addFavorite, removeFavorite, clearFavorites } = favoritesSlice.actions;
 export default favoritesSlice.reducer;

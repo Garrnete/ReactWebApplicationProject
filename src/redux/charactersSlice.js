@@ -5,7 +5,7 @@ export const fetchCharactersByHouse = createAsyncThunk(
   "characters/fetchByHouse",
   async (house) => {
     const res = await axios.get(
-      `https://hp-api.onrender.com/api/characters/house/${house}`
+      `https://hp-api.onrender.com/api/characters/house/${house.toLowerCase()}`
     );
     return res.data;
   }
@@ -18,7 +18,11 @@ const charactersSlice = createSlice({
     status: "idle",
     error: null,
   },
-  reducers: {},
+  reducers: {
+    setCharacters: (state, action) => {
+      state.list = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchCharactersByHouse.pending, (state) => {
@@ -35,4 +39,5 @@ const charactersSlice = createSlice({
   },
 });
 
+export const { setCharacters } = charactersSlice.actions;
 export default charactersSlice.reducer;
