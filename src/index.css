@@ -5,14 +5,18 @@
 body {
   margin: 0;
   font-family: 'Galindo', cursive;
-  background-color: #1c1b29; /* dark wizarding night */
+  background-color: #1c1b29;
+  /* dark wizarding night */
   color: #f3f3f3;
   overflow-x: hidden;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   font-family: 'Cinzel', serif;
-  color: #f3d16b; /* golden Hogwarts vibe */
+  color: #f3d16b;
+  /* golden Hogwarts vibe */
 }
 
 a {
@@ -43,6 +47,5 @@ button:hover {
   background-color: #2c2b3c;
   border-radius: 12px;
   padding: 1rem;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
 }
-

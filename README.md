@@ -1,6 +1,6 @@
 ## Sorting Hat Portal 🧙🏻‍♂️
 
-A magical React web application where users can take a Sorting Hat quiz, discover their Hogwarts house, browse house members, save favorite characters, and enjoy animated, Hogwarts-themed UI.
+A magical React web application where users can take a Sorting Hat quiz, discover their Hogwarts house, browse house members, save favorite characters and enjoy animated Hogwarts-themed UI.
 
 ## Technologies Used:
 
