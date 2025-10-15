@@ -16,6 +16,8 @@ HP API – Fetch house characters dynamically (https://hp-api.onrender.com/api/c
 
 CSS & Google Fonts (Cinzel, Galindo) – Hogwarts-themed styling and magical fonts
 
+AJAX / Fetch – Retrieves external data dynamically
+
 ## Features:
 Core Features (MVP)
 
@@ -38,8 +40,6 @@ Animations – Framer Motion for hover effects, transitions, and card animations
 House-colored hover glow for characters
 
 Magical fonts: Galindo (body), Cinzel (names)
-
-Lighter green for Slytherin names for readability
 
 Background sparkle effects (optional magical floating animations)
 
@@ -137,16 +137,16 @@ Example:
   }
 ]
 
-## Known Issues / Unsolved Problems
+## Known Issues / Unsolved Problems:
 
 1. Some characters from the API may lack images (placeholder used)
 
 2. Optional drag-and-drop or carousel features not implemented
 
-## Credits
+## Credits:
 
-# HP API – Character data
+HP API – Character data
 
-# Fonts: Cinzel & Galindo – Google Fonts
+Fonts: Cinzel & Galindo – Google Fonts
 
-# Inspiration: Harry Potter books & movies
+Inspiration: Harry Potter books & movies
