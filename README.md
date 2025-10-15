@@ -16,7 +16,7 @@ HP API – Fetch house characters dynamically (https://hp-api.onrender.com/api/c
 
 CSS & Google Fonts (Cinzel, Galindo) – Hogwarts-themed styling and magical fonts
 
-## Features
+## Features:
 Core Features (MVP)
 
 Sorting Hat Quiz – 4+ question quiz with house scoring
@@ -33,7 +33,7 @@ Loading Spinner & Error Handling – Displays while fetching data or if API fail
 
 Animations – Framer Motion for hover effects, transitions, and card animations
 
-## Bonus Features / Add-ons
+## Bonus Features / Add-ons:
 
 House-colored hover glow for characters
 
@@ -47,27 +47,27 @@ Fallback images for characters without photos
 
 Favorites hover animation for interactivity
 
-## Approach Taken
+## Approach Taken:
 
 1. Planning & Wireframes – Mapped pages, components, and Redux slices
 
 2. Redux Slices:
 
-houseSlice – Stores selected house
+     houseSlice – Stores selected house
 
-charactersSlice – Async thunk to fetch house characters
+     charactersSlice – Async thunk to fetch house characters
 
-favoritesSlice – Manages user favorites
+     favoritesSlice – Manages user favorites
 
 3. Component Development – Built reusable components:
 
-CharacterCard (hover glow, house color, favorite toggle)
+     CharacterCard (hover glow, house color, favorite toggle)
 
-CharacterList (grid layout, loading, error handling)
+     CharacterList (grid layout, loading, error handling)
 
-SortingQuiz (animated question transitions)
+     SortingQuiz (animated question transitions)
 
-Favorites (dark gray text for readability, house-themed color coding)
+     Favorites (dark gray text for readability, house-themed color coding)
 
 4. API Integration – HP API to dynamically fetch character data per house
 
@@ -78,11 +78,15 @@ Favorites (dark gray text for readability, house-themed color coding)
 ## Usage Instructions:
 
 1. git clone https://github.com/Garrnete/ReactWebApplicationProject
+
 2. Install dependencies: 
       npm install
+
 3. Run the development server:
       npm run dev
+
 4. Open in browser: http://localhost:5173
+
 5. Steps in-app:
       5a. Take the Sorting Hat quiz
       5b. Explore your house dashboard
@@ -135,14 +139,14 @@ Example:
 
 ## Known Issues / Unsolved Problems
 
-Some characters from the API may lack images (placeholder used)
+1. Some characters from the API may lack images (placeholder used)
 
-Optional drag-and-drop or carousel features not implemented
+2. Optional drag-and-drop or carousel features not implemented
 
 ## Credits
 
-HP API – Character data
+# HP API – Character data
 
-Fonts: Cinzel & Galindo – Google Fonts
+# Fonts: Cinzel & Galindo – Google Fonts
 
-Inspiration: Harry Potter books & movies
+# Inspiration: Harry Potter books & movies
