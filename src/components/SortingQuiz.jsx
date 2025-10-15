@@ -1,148 +1,91 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import { useDispatch } from "react-redux";
 import { selectHouse } from "../redux/houseSlice";
-import { fetchCharactersByHouse } from "../redux/charactersSlice";
 import { useNavigate } from "react-router-dom";
 
-/**
- * Simple quiz: 4 questions, each answer maps to a house score.
- * On submit, pick max score house. If tie, pick random among top.
- */
-
-const QUESTIONS = [
-    {
-        q: "You see an injustice. What do you do?",
-        a: [
-            { text: "Confront it bravely", house: "Gryffindor" },
-            { text: "Plan a clever way to fix it", house: "Ravenclaw" },
-            { text: "Work behind the scenes", house: "Slytherin" },
-            { text: "Support those harmed", house: "Hufflepuff" },
-        ],
+const questions = [
+  {
+    question: "Which quality best describes you?",
+    options: {
+      Gryffindor: "Brave",
+      Slytherin: "Ambitious",
+      Ravenclaw: "Wise",
+      Hufflepuff: "Loyal",
     },
-    {
-        q: "Pick a hobby:",
-        a: [
-            { text: "Dueling", house: "Gryffindor" },
-            { text: "Reading and puzzles", house: "Ravenclaw" },
-            { text: "Networking, clubs", house: "Slytherin" },
-            { text: "Gardening or baking", house: "Hufflepuff" },
-        ],
+  },
+  {
+    question: "Choose your favorite magical subject:",
+    options: {
+      Gryffindor: "Defense Against the Dark Arts",
+      Slytherin: "Potions",
+      Ravenclaw: "Charms",
+      Hufflepuff: "Herbology",
     },
-    {
-        q: "What's most important to you?",
-        a: [
-            { text: "Courage", house: "Gryffindor" },
-            { text: "Wisdom", house: "Ravenclaw" },
-            { text: "Ambition", house: "Slytherin" },
-            { text: "Loyalty", house: "Hufflepuff" },
-        ],
-    },
-    {
-        q: "Choose a pet:",
-        a: [
-            { text: "Owl", house: "Ravenclaw" },
-            { text: "Toad", house: "Hufflepuff" },
-            { text: "Cat", house: "Slytherin" },
-            { text: "Phoenix", house: "Gryffindor" },
-        ],
-    },
+  },
 ];
 
 export default function SortingQuiz() {
-    const [answers, setAnswers] = useState(Array(QUESTIONS.length).fill(null));
-    const [error, setError] = useState("");
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+  const [index, setIndex] = useState(0);
+  const [scores, setScores] = useState({
+    Gryffindor: 0,
+    Slytherin: 0,
+    Ravenclaw: 0,
+    Hufflepuff: 0,
+  });
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-    const handleSelect = (qIndex, house) => {
-        const copy = [...answers];
-        copy[qIndex] = house;
-        setAnswers(copy);
-    };
+  const handleAnswer = (house) => {
+    const newScores = { ...scores, [house]: scores[house] + 1 };
+    setScores(newScores);
 
-    const handleSubmit = () => {
-        if (answers.includes(null)) {
-            setError("Please answer all questions.");
-            return;
-        }
-        // tally
-        const tally = {};
-        answers.forEach((h) => (tally[h] = (tally[h] || 0) + 1));
-        let max = 0;
-        Object.values(tally).forEach((v) => (max = Math.max(max, v)));
-        const topHouses = Object.keys(tally).filter((h) => tally[h] === max);
-        const chosen = topHouses[Math.floor(Math.random() * topHouses.length)];
+    if (index + 1 < questions.length) setIndex(index + 1);
+    else {
+      const finalHouse = Object.entries(newScores).sort(
+        (a, b) => b[1] - a[1]
+      )[0][0];
+      dispatch(selectHouse(finalHouse));
+      navigate("/house");
+    }
+  };
 
-        // dispatch selection and fetch characters
-        dispatch(selectHouse(chosen));
-        dispatch(fetchCharactersByHouse(chosen));
-        navigate("/house");
-    };
-
-    const handleRandom = () => {
-        const houses = ["Gryffindor", "Slytherin", "Hufflepuff", "Ravenclaw"];
-        const chosen = houses[Math.floor(Math.random() * houses.length)];
-        dispatch(selectHouse(chosen));
-        dispatch(fetchCharactersByHouse(chosen));
-        navigate("/house");
-    };
-
-    return (
-        <div>
-            <h2>Sorting Hat Quiz</h2>
-            <p>Answer the short quiz or let the Sorting Hat choose for you.</p>
-
-            <div style={{ display: "grid", gap: 16 }}>
-                {QUESTIONS.map((item, i) => (
-                    <div key={i} style={{ padding: 12, borderRadius: 8, background: "#fff", boxShadow: "0 2px 4px rgba(0,0,0,0.06)" }}>
-                        <p style={{ margin: 0, fontWeight: 600 }}>{i + 1}. {item.q}</p>
-                        <div style={{ display: "flex", gap: 8, marginTop: 8, flexWrap: "wrap" }}>
-                            {item.a.map((opt, idx) => {
-                                const isSelected = answers[i] === opt.house;
-                                return (
-                                    <button
-                                        key={idx}
-                                        onClick={() => handleSelect(i, opt.house)}
-                                        style={{
-                                            padding: "0.45rem 0.75rem",
-                                            borderRadius: 6,
-                                            border: isSelected ? "2px solid #6A1B9A" : "1px solid #ddd",
-                                            background: isSelected ? "#f3e6ff" : "#fafafa",
-                                            cursor: "pointer",
-                                        }}
-                                    >
-                                        {opt.text}
-                                    </button>
-                                );
-                            })}
-                        </div>
-                    </div>
-                ))}
-            </div>
-
-            {error && <p style={{ color: "red" }}>{error}</p>}
-
-            <div style={{ marginTop: 16, display: "flex", gap: 8 }}>
-                <button onClick={handleSubmit} style={primaryBtn}>Get Sorted</button>
-                <button onClick={handleRandom} style={secondaryBtn}>Random Assignment</button>
-            </div>
+  return (
+    <motion.div
+      className="container"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8 }}
+    >
+      <h2>✨ Sorting Hat Quiz</h2>
+      <motion.div
+        key={index}
+        initial={{ x: 100, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        style={{ marginTop: "2rem" }}
+      >
+        <h3>{questions[index].question}</h3>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem", marginTop: "1rem" }}>
+          {Object.entries(questions[index].options).map(([house, answer]) => (
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              key={house}
+              onClick={() => handleAnswer(house)}
+              style={{
+                background: "#d1c4e9",
+                border: "none",
+                padding: "1rem 2rem",
+                borderRadius: "10px",
+                fontWeight: "bold",
+              }}
+            >
+              {answer}
+            </motion.button>
+          ))}
         </div>
-    );
+      </motion.div>
+    </motion.div>
+  );
 }
-
-const primaryBtn = {
-    background: "#6A1B9A",
-    color: "#fff",
-    border: "none",
-    padding: "0.6rem 1rem",
-    borderRadius: 6,
-    cursor: "pointer",
-};
-
-const secondaryBtn = {
-    background: "#eee",
-    border: "none",
-    padding: "0.6rem 1rem",
-    borderRadius: 6,
-    cursor: "pointer",
-};

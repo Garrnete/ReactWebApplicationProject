@@ -1,34 +1,32 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
-export default function Header() {
+const Header = () => {
     return (
-        <header style={headerStyle}>
-            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                <h1 style={{ margin: 0 }}>Sorting Hat Portal</h1>
+        <motion.nav
+            initial={{ y: -60, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            className="header"
+            style={{
+                background: "#4b2c82",
+                color: "white",
+                padding: "1rem 2rem",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+            }}
+        >
+            <h1 style={{ fontFamily: "Cinzel" }}>🪄 Sorting Hat Portal</h1>
+            <div style={{ display: "flex", gap: "1.5rem" }}>
+                <Link to="/">Home</Link>
+                <Link to="/sorting">Quiz</Link>
+                <Link to="/house">House</Link>
+                <Link to="/favorites">Favorites</Link>
             </div>
-
-            <nav style={{ display: "flex", gap: 10 }}>
-                <Link to="/" style={linkStyle}>Home</Link>
-                <Link to="/sorting" style={linkStyle}>Take Quiz</Link>
-                <Link to="/house" style={linkStyle}>House</Link>
-                <Link to="/favorites" style={linkStyle}>Favorites</Link>
-            </nav>
-        </header>
+        </motion.nav>
     );
-}
-
-const headerStyle = {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "0.75rem 1rem",
-    background: "#6A1B9A",
-    color: "#fff",
 };
 
-const linkStyle = {
-    color: "#fff",
-    textDecoration: "none",
-    fontWeight: "600",
-};
+export default Header;

@@ -1,59 +1,26 @@
 import React from "react";
-import CharacterList from "./CharacterList";
 import { useSelector } from "react-redux";
-
-const HOUSE_INFO = {
-  Gryffindor: {
-    color: "#7C1E1E",
-    traits: ["Bravery", "Courage", "Chivalry"],
-    crest: "🦁",
-  },
-  Slytherin: {
-    color: "#2E6A2E",
-    traits: ["Ambition", "Cunning", "Resourcefulness"],
-    crest: "🐍",
-  },
-  Ravenclaw: {
-    color: "#1F4E79",
-    traits: ["Wisdom", "Learning", "Creativity"],
-    crest: "🦅",
-  },
-  Hufflepuff: {
-    color: "#B8860B",
-    traits: ["Loyalty", "Patience", "Fairness"],
-    crest: "🦡",
-  },
-};
+import { motion } from "framer-motion";
 
 export default function HouseDashboard() {
-  const selectedHouse = useSelector((state) => state.house.selectedHouse);
+  const { selectedHouse } = useSelector((state) => state.house);
 
-  if (!selectedHouse) {
-    return <p>Please take the Sorting Hat quiz or select a house first.</p>;
-  }
-
-  const info = HOUSE_INFO[selectedHouse] || {};
+  if (!selectedHouse)
+    return <p style={{ textAlign: "center" }}>Please take the quiz first!</p>;
 
   return (
-    <section>
-      <div style={{
-        display: "flex",
-        alignItems: "center",
-        gap: 16,
-        background: "#fff",
-        padding: 12,
-        borderRadius: 8,
-      }}>
-        <div style={{ fontSize: 48 }}>{info.crest}</div>
-        <div>
-          <h2 style={{ margin: 0 }}>{selectedHouse}</h2>
-          <p style={{ margin: 0 }}>{info.traits?.join(" • ")}</p>
-        </div>
-      </div>
-
-      <div style={{ marginTop: 16 }}>
-        <CharacterList />
-      </div>
-    </section>
+    <motion.div
+      className="container"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6 }}
+    >
+      <h2>🏰 Welcome to {selectedHouse}</h2>
+      <p>
+        Each house values different traits. Discover the members and history of your
+        house below!
+      </p>
+    </motion.div>
   );
 }
+
